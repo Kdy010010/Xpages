@@ -34,39 +34,9 @@
       var code = document.getElementById("codeInput").value;
       var outputFrame = document.getElementById("output").contentWindow.document;
       outputFrame.open();
-      outputFrame.write(`
-        <!DOCTYPE html>
-        <html lang="en">
-        <head>
-          <meta charset="UTF-8">
-          <meta name="viewport" content="width=device-width, initial-scale=1.0">
-          <title>Output</title>
-          <style>${getCSS()}</style>
-        </head>
-        <body>
-          <script>${getJS()}</script>
-          ${code}
-        </body>
-        </html>
-      `);
+      outputFrame.write(code);
       outputFrame.close();
       window.location.hash = encodeURIComponent(code);
-    }
-
-    // Function to extract CSS from the code
-    function getCSS() {
-      var code = document.getElementById("codeInput").value;
-      var cssRegex = /<style>([\s\S]+)<\/style>/;
-      var match = code.match(cssRegex);
-      return match ? match[1] : '';
-    }
-
-    // Function to extract JS from the code
-    function getJS() {
-      var code = document.getElementById("codeInput").value;
-      var jsRegex = /<script>([\s\S]+)<\/script>/;
-      var match = code.match(jsRegex);
-      return match ? match[1] : '';
     }
 
     // Function to handle form submission
