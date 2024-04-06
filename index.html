@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Code Runner</title>
+<style>
+  /* Simple styling for the form */
+  form {
+    margin: 20px;
+  }
+  textarea {
+    width: 100%;
+    height: 200px;
+  }
+  img {
+    max-width: 100%;
+  }
+</style>
+</head>
+<body>
+  <form id="codeForm">
+    <textarea id="codeInput" placeholder="Enter your HTML/CSS/JS code here"></textarea>
+    <input type="file" id="fileInput" accept="image/*">
+    <button type="submit">Run Code</button>
+  </form>
+  <div id="output"></div>
+
+  <script>
+    // Function to run the code
+    function runCode() {
+      var code = document.getElementById("codeInput").value;
+      var outputDiv = document.getElementById("output");
+      outputDiv.innerHTML = code;
+      try {
+        eval(code);
+      } catch (error) {
+        console.error(error);
+        outputDiv.innerHTML = "<div style='color: red;'>Error: " + error.message + "</div>";
+      }
+      window.location.hash = encodeURIComponent(code);
+    }
+
+    // Function to handle form submission
+    document.getElementById("codeForm").addEventListener("submit", function(event) {
+      event.preventDefault();
+      runCode();
+    });
+
+    // Check if there's code in the URL and run it
+    window.addEventListener("load", function() {
+      var codeFromHash = decodeURIComponent(window.location.hash.slice(1));
+      if (codeFromHash) {
+        document.getElementById("codeInput").value = codeFromHash;
+        runCode();
+      }
+    });
+  </script>
+</body>
+</html>
